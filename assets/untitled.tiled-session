@@ -1,0 +1,123 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "C:/Users/JC/Downloads/CMPM 120/PlatformImprovement/assets/platformer-level-1.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        "C:/Users/JC/Downloads/CMPM 120/PlatformImprovement/assets/platformer-level-1.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 316,
+                "y": 268
+            }
+        },
+        "C:/Users/JC/Downloads/CMPM 120/PlatformImprovement/assets/platformer-level-1.tmx#kenny_tilemap_packed": {
+            "scaleInDock": 1
+        },
+        "C:/Users/JC/Downloads/CMPM 120/PlatformImprovement/assets/platformer-level-1.tmx#tilemapBig_packed": {
+            "scaleInDock": 1
+        },
+        "C:/Users/JC/Downloads/CMPM 120/PlatformImprovement/assets/platformer-level-1.tmx#tilemapFarm_packed": {
+            "scaleInDock": 1
+        },
+        "C:/Users/JC/Downloads/CMPM 120/PlatformImprovement/assets/platformer-level-1.tmx#tilemapFood_packed": {
+            "scaleInDock": 1
+        },
+        "C:/Users/JC/Downloads/CMPM 120/PlatformImprovement/assets/platformer-level-1.tmx#tilemap_packed": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "platformer-level-1.tmj": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 356.5,
+                "y": 176.5
+            }
+        },
+        "platformer-level-1.tmj#tilemapBig_packed": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "platformer-level-1.tmj#tilemapFarm_packed": {
+            "scaleInDock": 1
+        },
+        "platformer-level-1.tmj#tilemapFood_packed": {
+            "scaleInDock": 1
+        },
+        "platformer-level-1.tmj#tilemap_packed": {
+            "scaleInDock": 1
+        },
+        "platformer-level-1.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 359,
+                "y": 180
+            }
+        },
+        "platformer-level-1.tmx#tilemapBig_packed": {
+            "scaleInDock": 1
+        },
+        "platformer-level-1.tmx#tilemapFarm_packed": {
+            "scaleInDock": 1
+        },
+        "platformer-level-1.tmx#tilemapFood_packed": {
+            "scaleInDock": 1
+        },
+        "platformer-level-1.tmx#tilemap_packed": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "platformerLevel1.tmx": {
+            "scale": 0.6359722222222222,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 360.07861978597947,
+                "y": 180.03930989298976
+            }
+        },
+        "platformerLevel1.tmx#tilemapFarm_packed": {
+            "scaleInDock": 1
+        },
+        "platformerLevel1.tmx#tilemapFood_packed": {
+            "scaleInDock": 1
+        },
+        "platformerLevel1.tmx#tilemap_packed": {
+            "scaleInDock": 1
+        }
+    },
+    "last.exportedFilePath": "C:/Users/JC/Downloads/CMPM 120/PlatformImprovement/assets",
+    "last.imagePath": "C:/Users/JC/Downloads/CMPM 120/PlatformerImplementation/Platformer/assets",
+    "map.lastUsedExportFilter": "Tiled map files (*.tmx *.xml)",
+    "map.lastUsedFormat": "json",
+    "map.tileHeight": 18,
+    "map.tileWidth": 18,
+    "map.width": 40,
+    "openFiles": [
+        "C:/Users/JC/Downloads/CMPM 120/PlatformImprovement/assets/platformer-level-1.tmx",
+        "platformer-level-1.tmx"
+    ],
+    "project": "untitled.tiled-project",
+    "property.type": "bool",
+    "recentFiles": [
+        "C:/Users/JC/Downloads/CMPM 120/PlatformImprovement/assets/platformer-level-1.tmx",
+        "platformer-level-1.tmj",
+        "platformer-level-1.tmx",
+        "platformerLevel1.tmx"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 18,
+        "width": 18
+    }
+}
