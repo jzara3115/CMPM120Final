@@ -21,10 +21,14 @@ class mainScene extends Phaser.Scene {
         this.map = this.add.tilemap("platformer-level-1", 18, 18, 120, 40);
 
         this.pick = this.input.keyboard.addKey("E");
-        this.objCount = 0;
+
         this.canUp = false;
-        this.stewMade = false;
+        this.donutMade = false;
         this.waterUp = false;
+        this.shovelUp = false;
+
+        this.cornerPosX = 0;
+        this.cornerPosY = 0;
 
         // Add a tileset to the map
         // First parameter: name we gave the tileset in Tiled
@@ -47,35 +51,36 @@ class mainScene extends Phaser.Scene {
         // Phaser docs:
         // https://newdocs.phaser.io/docs/3.80.0/focus/Phaser.Tilemaps.Tilemap-createFromObjects
 
-        this.pump = this.map.createFromObjects("Objects", {
-            name: "pump",
-            key: "tilemap_sheet",
-            frame: 185
-        });
-        this.red = this.map.createFromObjects("Objects", {
-            name: "red",
-            key: "tilemap_sheet",
-            frame: 128
-        });
-        this.brown = this.map.createFromObjects("Objects", {
-            name: "brown",
-            key: "tilemap_sheet",
-            frame: 129
-        });
+        
         this.can = this.map.createFromObjects("Objects", {
             name: "can",
             key: "tilemap_sheet",
-            frame: 210
+            frame: 442
         });
         this.water = this.map.createFromObjects("Objects", {
             name: "water",
             key: "tilemap_sheet",
             frame: 53
         });
-        this.carrot = this.map.createFromObjects("Objects", {
-            name: "carrot",
+        this.box = this.map.createFromObjects("Objects", {
+            name: "box",
             key: "tilemap_sheet",
-            frame: 288
+            frame: 26
+        });
+        this.flag = this.map.createFromObjects("Objects", {
+            name: "flag",
+            key: "tilemap_sheet",
+            frame: 111
+        });
+        this.flag = this.map.createFromObjects("Objects", {
+            name: "flag",
+            key: "tilemap_sheet",
+            frame: 111
+        });
+        this.flag = this.map.createFromObjects("Objects", {
+            name: "flag",
+            key: "tilemap_sheet",
+            frame: 111
         });
         this.flag = this.map.createFromObjects("Objects", {
             name: "flag",
@@ -83,21 +88,20 @@ class mainScene extends Phaser.Scene {
             frame: 111
         });
 
+
+
         this.E = this.map.createFromObjects("Objects", {
             name: "E",
             key: "tilemap_sheet",
             frame: 173
         });
         
+        
 
         // Since createFromObjects returns an array of regular Sprites, we need to convert 
         // them into Arcade Physics sprites (STATIC_BODY, so they don't move) 
-        this.physics.world.enable(this.pump, Phaser.Physics.Arcade.STATIC_BODY);
-        this.physics.world.enable(this.brown, Phaser.Physics.Arcade.STATIC_BODY);
-        this.physics.world.enable(this.red, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.can, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.water, Phaser.Physics.Arcade.STATIC_BODY);
-        this.physics.world.enable(this.carrot, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.flag, Phaser.Physics.Arcade.STATIC_BODY);
 
 
@@ -105,12 +109,8 @@ class mainScene extends Phaser.Scene {
 
         // Create a Phaser group out of the array this.coins
         // This will be used for collision detection below.
-        this.pumpGroup = this.add.group(this.pump);
-        this.redGroup = this.add.group(this.red);
-        this.brownGroup = this.add.group(this.brown);
-        this.canGroup = this.add.group(this.can);
         this.waterGroup = this.add.group(this.water);
-        this.carrotGroup = this.add.group(this.carrot);
+        this.boxGroup = this.add.group(this.box);
         this.flagGroup = this.add.group(this.flag);
 
         //this.EGroup = this.add.group(this.E);
@@ -118,19 +118,19 @@ class mainScene extends Phaser.Scene {
 
         // set up player avatar
         my.sprite.player = this.physics.add.sprite(50, 600, "platformer_characters", "tile_0000.png");
-        my.sprite.player.setCollideWorldBounds(true);
+        my.sprite.player.setCollideWorldBounds(false);
 
         // Enable collision handling
         this.physics.add.collider(my.sprite.player, this.groundLayer);
-
-        // Handle collision detection with coins
-
 
 
         //ALL LOGS
         this.physics.add.overlap(my.sprite.player, this.E, (obj1, obj2) => {
             obj2.setVisible(true);
+            this.can.setPosition(this.cornerPosX, this.cornerPosY);
             if(Phaser.Input.Keyboard.JustDown(this.pick)) {
+                
+                //obj2.setPosition(this.cornerPosX, this.cornerPosY);
                 this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "BAHHH IM THE GLUCOSE GOBLIN AND I WANT THE SWEETEST TREAT YOU HAVE!");
                 this.my.text.speach.setScale(0.4);
                 this.sound.play("write", {
@@ -146,34 +146,7 @@ class mainScene extends Phaser.Scene {
             }
         });
 
-        this.physics.add.overlap(my.sprite.player, this.pumpGroup, (obj1, obj2) => {
-            if(Phaser.Input.Keyboard.JustDown(this.pick)) {
-                obj2.destroy();
-                this.objCount += 1;
-                this.sound.play("pickup", {
-                    volume: 0.4   // Can adjust volume using this, goes from 0 to 1
-                });
-            }
-        });
-        this.physics.add.overlap(my.sprite.player, this.redGroup, (obj1, obj2) => {
-            if(Phaser.Input.Keyboard.JustDown(this.pick)) {
-                obj2.destroy();
-                this.objCount += 1;
-                this.sound.play("pickup", {
-                    volume: 0.4   // Can adjust volume using this, goes from 0 to 1
-                });
-            }
-        });
-        this.physics.add.overlap(my.sprite.player, this.brownGroup, (obj1, obj2) => {
-            if(Phaser.Input.Keyboard.JustDown(this.pick)) {
-                obj2.destroy();
-                this.objCount += 1;
-                this.sound.play("pickup", {
-                    volume: 0.4   // Can adjust volume using this, goes from 0 to 1
-                });
-            }
-        });
-        this.physics.add.overlap(my.sprite.player, this.canGroup, (obj1, obj2) => {
+        this.physics.add.overlap(my.sprite.player, this.can, (obj1, obj2) => {
             if(Phaser.Input.Keyboard.JustDown(this.pick)) {
                 obj2.destroy();
                 this.canUp = true;
@@ -182,6 +155,7 @@ class mainScene extends Phaser.Scene {
                 });
             }
         });
+
         this.physics.add.overlap(my.sprite.player, this.waterGroup, (obj1, obj2) => {
             if(Phaser.Input.Keyboard.JustDown(this.pick)) {
                 if(this.canUp){
@@ -198,9 +172,15 @@ class mainScene extends Phaser.Scene {
                 
             }
         });
+
+
+
+
+
+        
         this.physics.add.overlap(my.sprite.player, this.carrotGroup, (obj1, obj2) => {
             if(Phaser.Input.Keyboard.JustDown(this.pick)) {
-                if(this.waterUp){
+                if(this.shovelUp){
                     obj2.destroy();
                     this.objCount += 1;
                     this.sound.play("pickup", {
@@ -213,10 +193,11 @@ class mainScene extends Phaser.Scene {
                 }
             }
         });
+
         this.physics.add.overlap(my.sprite.player, this.flagGroup, (obj1, obj2) => {
             if(Phaser.Input.Keyboard.JustDown(this.pick)) {
-                if(this.objCount >= 4){
-                    this.my.text.score = this.add.bitmapText(this.cameras.main.width, this.cameras.main.height, "honk", "Mushroom Stew Made! Press R to restart!");
+                if(this.donutMade){
+                    this.my.text.score = this.add.bitmapText(this.cameras.main.width, this.cameras.main.height, "honk", "The Glucose Goblin got his Donut!");
                     this.my.text.score.setScale(0.6);
                     this.stewMade = true;
                     this.sound.play("win", {
@@ -266,9 +247,12 @@ class mainScene extends Phaser.Scene {
     update() {
 
         if(this.my.text.score){
-            this.my.text.score.x = my.sprite.player.x - 140;
-            this.my.text.score.y = my.sprite.player.y - 30;
+            this.my.text.score.x = my.sprite.player.displayWidth - 20;
+            this.my.text.score.y = my.sprite.player.displayHeight - 50;
         }
+
+        this.cornerPosX = my.sprite.player.x- 50;
+        this.cornerPosY = my.sprite.player.y - 30;
 
         if(cursors.left.isDown) {
             my.sprite.player.setAccelerationX(-this.ACCELERATION);
