@@ -389,15 +389,12 @@ class mainScene extends Phaser.Scene {
             obj2.setVisible(true);
             if(Phaser.Input.Keyboard.JustDown(this.pick)) {
                 if(this.creamDonutMade) {
-                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Oh my god... This hits the spot, I'll stop now.");
+                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Oh my god... This hits the spot, I'll stop now. R to restart!");
                     this.my.text.speach.setScale(0.4);
             
                     const timer = this.time.delayedCall(this.delay, () => {
                         this.my.text.speach.destroy();
                     });
-
-                    this.my.text.score = this.add.bitmapText(this.cameras.main.width, this.cameras.main.height, "honk", "The Glucose Goblin got his Donut! R to restart!");
-                    this.my.text.score.setScale(0.6);
                     this.stewMade = true;
                     this.sound.play("win", {
                         volume: 0.4   
@@ -485,7 +482,7 @@ class mainScene extends Phaser.Scene {
             if(Phaser.Input.Keyboard.JustDown(this.pick)) {
                 
                     this.woodEventUp = true;
-                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "what?");
+                    this.my.text.speach = this.add.bitmapText(obj2.x, obj2.y - 25, "honk", "what?");
                     this.my.text.speach.setScale(0.4);
                     this.sound.play("write", {
                         volume: 0.4 
@@ -544,7 +541,7 @@ class mainScene extends Phaser.Scene {
         this.physics.add.overlap(my.sprite.player, this.E9, (obj1, obj2) => {
             obj2.setVisible(true);
             if(Phaser.Input.Keyboard.JustDown(this.pick)) {
-                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "-> Woods Project DO NOT ENTER");
+                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "-> Woods Project DO NOT ENTERs");
                     this.my.text.speach.setScale(0.4);
                     this.sound.play("write", {
                         volume: 0.4 
