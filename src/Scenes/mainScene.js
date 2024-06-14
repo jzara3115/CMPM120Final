@@ -29,7 +29,9 @@ class mainScene extends Phaser.Scene {
         this.woodUp = false;
         this.doughUp = false;
         this.creamUp = false;
+        this.woodEventUp = false;
         this.creamDonutMade = false;
+        this.stewMade = false;
         
 
         this.cornerPosX = 0;
@@ -78,11 +80,6 @@ class mainScene extends Phaser.Scene {
             key: "tilemap_sheet",
             frame: 205
         });
-        this.flag = this.map.createFromObjects("Objects", {
-            name: "flag",
-            key: "tilemap_sheet",
-            frame: 111
-        });
         this.dough = this.map.createFromObjects("Objects", {
             name: "dough",
             key: "tilemap_sheet",
@@ -116,6 +113,16 @@ class mainScene extends Phaser.Scene {
             key: "tilemap_sheet",
             frame: 173
         });
+        this.E10 = this.map.createFromObjects("Objects", {
+            name: "E10",
+            key: "tilemap_sheet",
+            frame: 173
+        });
+        this.E7 = this.map.createFromObjects("Objects", {
+            name: "E7",
+            key: "tilemap_sheet",
+            frame: 173
+        });
         
         
 
@@ -123,7 +130,6 @@ class mainScene extends Phaser.Scene {
         // them into Arcade Physics sprites (STATIC_BODY, so they don't move) 
         this.physics.world.enable(this.can, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.water, Phaser.Physics.Arcade.STATIC_BODY);
-        this.physics.world.enable(this.flag, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.box, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.shovel, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.dough, Phaser.Physics.Arcade.STATIC_BODY);
@@ -131,15 +137,17 @@ class mainScene extends Phaser.Scene {
         this.physics.world.enable(this.donut, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.cream, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.creamDonut, Phaser.Physics.Arcade.STATIC_BODY);
+        
 
 
         this.physics.world.enable(this.E, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.E10, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.E7, Phaser.Physics.Arcade.STATIC_BODY);
 
         // Create a Phaser group out of the array this.coins
         // This will be used for collision detection below.
         this.waterGroup = this.add.group(this.water);
         this.boxGroup = this.add.group(this.box);
-        this.flagGroup = this.add.group(this.flag);
         
         // set up player avatar
         my.sprite.player = this.physics.add.sprite(50, 600, "platformer_characters", "tile_0000.png");
@@ -156,7 +164,7 @@ class mainScene extends Phaser.Scene {
                 obj2.destroy();
                 this.doughUp = true;
                 this.sound.play("pickup", {
-                    volume: 0.4   // Can adjust volume using this, goes from 0 to 1
+                    volume: 0.4   
                 });
                 this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Dough would be useful");
                 this.my.text.speach.setScale(0.4);
@@ -172,7 +180,7 @@ class mainScene extends Phaser.Scene {
                 obj2.destroy();
                 this.canUp = true;
                 this.sound.play("pickup", {
-                    volume: 0.4   // Can adjust volume using this, goes from 0 to 1
+                    volume: 0.4   
                 });
                 this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "This needs some water...");
                 this.my.text.speach.setScale(0.4);
@@ -189,11 +197,11 @@ class mainScene extends Phaser.Scene {
                     obj2.destroy();
                     this.waterUp = true;
                     this.sound.play("water", {
-                        volume: 0.4   // Can adjust volume using this, goes from 0 to 1
+                        volume: 0.4   
                     });
                 } else {
                     this.sound.play("wrong", {
-                        volume: 0.4   // Can adjust volume using this, goes from 0 to 1
+                        volume: 0.4   
                     });
                 }
                 
@@ -209,6 +217,7 @@ class mainScene extends Phaser.Scene {
                     this.boxesBroke++;
 
                     if(this.boxesBroke == 5) {
+                        this.woodUp = true;
                         this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Ooh some wood!");
                         this.my.text.speach.setScale(0.4);
 
@@ -217,11 +226,11 @@ class mainScene extends Phaser.Scene {
                         });
                     }
                     this.sound.play("break", {
-                        volume: 0.4   // Can adjust volume using this, goes from 0 to 1
+                        volume: 0.4   
                     });
                 } else {
                     this.sound.play("wrong", {
-                        volume: 0.4   // Can adjust volume using this, goes from 0 to 1
+                        volume: 0.4 
                     });
                 }
             }
@@ -232,33 +241,15 @@ class mainScene extends Phaser.Scene {
                 obj2.destroy();
                 this.shovelUp = true;
                 this.sound.play("pickup", {
-                    volume: 0.4   // Can adjust volume using this, goes from 0 to 1
+                    volume: 0.4
                 });
                 this.my.text.speach = this.add.bitmapText(obj2.x - 100, obj2.y - 25, "honk", "This could break those boxes!");
                 this.my.text.speach.setScale(0.4);
 
                 const timer = this.time.delayedCall(this.delay, () => {
-                    this.my.text.speach.destroy(); // Destroy the text object after the delay
+                    this.my.text.speach.destroy();
                 });
             }
-        });
-
-        this.physics.add.overlap(my.sprite.player, this.flagGroup, (obj1, obj2) => {
-            if(Phaser.Input.Keyboard.JustDown(this.pick)) {
-                if(this.creamDonutMade){
-                    this.my.text.score = this.add.bitmapText(this.cameras.main.width, this.cameras.main.height, "honk", "The Glucose Goblin got his Donut!");
-                    this.my.text.score.setScale(0.6);
-                    this.stewMade = true;
-                    this.sound.play("win", {
-                        volume: 0.4   // Can adjust volume using this, goes from 0 to 1
-                    });
-                } else {
-                    this.sound.play("wrong", {
-                        volume: 0.4   // Can adjust volume using this, goes from 0 to 1
-                    });
-                }
-                
-            } 
         });
 
         this.physics.add.overlap(my.sprite.player, this.cook, (obj1, obj2) => {
@@ -271,21 +262,21 @@ class mainScene extends Phaser.Scene {
                     this.my.text.speach.setScale(0.4);
 
                     const timer = this.time.delayedCall(this.delay, () => {
-                        this.my.text.speach.destroy(); // Destroy the text object after the delay
+                        this.my.text.speach.destroy();
                     });
                 
                     this.sound.play("pickup", {
-                        volume: 0.4   // Can adjust volume using this, goes from 0 to 1
+                        volume: 0.4   
                     });
                 } else {
                     this.sound.play("wrong", {
-                        volume: 0.4   // Can adjust volume using this, goes from 0 to 1
+                        volume: 0.4   
                     });
                     this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Hmmm... water and dough should do the trick.");
                     this.my.text.speach.setScale(0.4);
 
                     const timer = this.time.delayedCall(this.delay, () => {
-                        this.my.text.speach.destroy(); // Destroy the text object after the delay
+                        this.my.text.speach.destroy();
                     });
                 }
             }
@@ -297,60 +288,64 @@ class mainScene extends Phaser.Scene {
             }
 
             if(Phaser.Input.Keyboard.JustDown(this.pick)) {
-                obj2.destroy();
-                //obj2.setPosition(this.cornerPosX, this.cornerPosY);
-                this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Looks delicious!");
-                this.my.text.speach.setScale(0.4);
-                this.sound.play("pickup", {
-                    volume: 0.4   // Can adjust volume using this, goes from 0 to 1
-                });
-
-            // Create a timer to handle text disappearance
-                const timer = this.time.delayedCall(this.delay, () => {
-                    this.my.text.speach.destroy(); // Destroy the text object after the delay
-                });
+                if (this.donutMade) {
+                    obj2.destroy();
+                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Looks delicious!");
+                    this.my.text.speach.setScale(0.4);
+                    this.sound.play("pickup", {
+                        volume: 0.4  
+                    });
+    
+                    const timer = this.time.delayedCall(this.delay, () => {
+                        this.my.text.speach.destroy(); 
+                    });
+                }  
+                
             }
         });
 
-        this.physics.add.overlap(my.sprite.player, this.donut, (obj1, obj2) => {
-            if(this.donutMade) {
+        this.physics.add.overlap(my.sprite.player, this.creamDonut, (obj1, obj2) => {
+            if(this.creamEventUp) {
                 obj2.setVisible(true); 
             }
 
             if(Phaser.Input.Keyboard.JustDown(this.pick)) {
-                obj2.destroy();
-                //obj2.setPosition(this.cornerPosX, this.cornerPosY);
-                this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Looks delicious!");
-                this.my.text.speach.setScale(0.4);
-                this.sound.play("pickup", {
-                    volume: 0.4   // Can adjust volume using this, goes from 0 to 1
-                });
-
-            // Create a timer to handle text disappearance
-                const timer = this.time.delayedCall(this.delay, () => {
-                    this.my.text.speach.destroy(); // Destroy the text object after the delay
-                });
+                if(this.creamEventUp) {
+                    this.creamDonutMade = true;
+                    obj2.destroy();
+                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Finished the Donut!!! I should hand it to the Goblin!");
+                    this.my.text.speach.setScale(0.4);
+                    this.sound.play("pickup", {
+                        volume: 0.4   
+                    });
+                    const timer = this.time.delayedCall(this.delay, () => {
+                        this.my.text.speach.destroy(); 
+                    });
+                }
             }
         });
 
-        this.physics.add.overlap(my.sprite.player, this.donut, (obj1, obj2) => {
-            if(this.donutMade) {
+        this.physics.add.overlap(my.sprite.player, this.cream, (obj1, obj2) => {
+            if(this.woodEventUp) {
                 obj2.setVisible(true); 
             }
 
             if(Phaser.Input.Keyboard.JustDown(this.pick)) {
-                obj2.destroy();
-                //obj2.setPosition(this.cornerPosX, this.cornerPosY);
-                this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Looks delicious!");
-                this.my.text.speach.setScale(0.4);
-                this.sound.play("pickup", {
-                    volume: 0.4   // Can adjust volume using this, goes from 0 to 1
-                });
-
-            // Create a timer to handle text disappearance
-                const timer = this.time.delayedCall(this.delay, () => {
-                    this.my.text.speach.destroy(); // Destroy the text object after the delay
-                });
+                if(this.woodEventUp) {
+                    this.creamUp = true;
+                    obj2.destroy();
+                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Huh? Well I needed that cream... so thanks?");
+                    this.my.text.speach.setScale(0.4);
+                    this.sound.play("pickup", {
+                        volume: 0.4
+                    });
+    
+                
+                    const timer = this.time.delayedCall(this.delay, () => {
+                        this.my.text.speach.destroy(); 
+                    });
+                }
+                
             }
         });
 
@@ -360,20 +355,86 @@ class mainScene extends Phaser.Scene {
         //DIALOGUE
         this.physics.add.overlap(my.sprite.player, this.E, (obj1, obj2) => {
             obj2.setVisible(true);
-            //this.can.setPosition(this.cornerPosX, this.cornerPosY);
             if(Phaser.Input.Keyboard.JustDown(this.pick)) {
-                
-                //obj2.setPosition(this.cornerPosX, this.cornerPosY);
-                this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "BAHHH IM THE GLUCOSE GOBLIN AND I WANT THE SWEETEST TREAT YOU HAVE!");
-                this.my.text.speach.setScale(0.4);
-                this.sound.play("write", {
-                    volume: 0.4   // Can adjust volume using this, goes from 0 to 1
-                });
+                if(this.creamDonutMade) {
+                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Oh my god... This hits the spot, I'll stop now.");
+                    this.my.text.speach.setScale(0.4);
+            
+                    const timer = this.time.delayedCall(this.delay, () => {
+                        this.my.text.speach.destroy();
+                    });
 
-            // Create a timer to handle text disappearance
-                const timer = this.time.delayedCall(this.delay, () => {
-                    this.my.text.speach.destroy(); // Destroy the text object after the delay
-                });
+                    this.my.text.score = this.add.bitmapText(this.cameras.main.width, this.cameras.main.height, "honk", "The Glucose Goblin got his Donut! R to restart!");
+                    this.my.text.score.setScale(0.6);
+                    this.stewMade = true;
+                    this.sound.play("win", {
+                        volume: 0.4   
+                    });
+
+                } else {
+                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "BAHHH IM THE GLUCOSE GOBLIN AND I WANT THE SWEETEST TREAT YOU HAVE!");
+                    this.my.text.speach.setScale(0.4);
+                    this.sound.play("write", {
+                    volume: 0.4
+                    });
+            
+                    const timer = this.time.delayedCall(this.delay, () => {
+                        this.my.text.speach.destroy();
+                    });
+                }
+                
+                
+            }
+        });
+
+        this.physics.add.overlap(my.sprite.player, this.E10, (obj1, obj2) => {
+            obj2.setVisible(true);
+            if(Phaser.Input.Keyboard.JustDown(this.pick)) {
+                if(this.woodUp) {
+                    this.woodEventUp = true;
+                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "MY SPATULAS FIXED !!!! HAVE SOME CREAM STRANGE FRIEND");
+                    this.my.text.speach.setScale(0.4);
+                    this.sound.play("write", {
+                        volume: 0.4 
+                    });
+                    const timer = this.time.delayedCall(this.delay, () => {
+                        this.my.text.speach.destroy();
+                    });
+                }
+                if(!this.woodUp) {
+                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "I NEED WOOD MY SPATULAS BROOOOKEEEEEEN HELP");
+                    this.my.text.speach.setScale(0.4);
+                    this.sound.play("write", {
+                        volume: 0.4 
+                    });
+                    const timer = this.time.delayedCall(this.delay, () => {
+                        this.my.text.speach.destroy();
+                    });
+                }
+                
+            }
+        });
+
+        this.physics.add.overlap(my.sprite.player, this.E7, (obj1, obj2) => {
+            obj2.setVisible(true);
+            if(Phaser.Input.Keyboard.JustDown(this.pick)) {
+                if(this.creamUp) {
+                    this.creamEventUp = true;
+                    this.my.text.speach = this.add.bitmapText(obj2.x - 50, obj2.y - 25, "honk", "Well done, here is your glazed donut.");
+                    this.my.text.speach.setScale(0.4);
+                    this.sound.play("write", {
+                        volume: 0.4   
+                    });
+                } else {
+                    this.my.text.speach = this.add.bitmapText(obj2.x - 80, obj2.y - 25, "honk", "I can glaze a donut, but you must help my townfolk first. Particularly the crazy one upstairs.");
+                    this.my.text.speach.setScale(0.4);
+                    this.sound.play("write", {
+                        volume: 0.4   
+                    });
+                    const timer = this.time.delayedCall(this.delay, () => {
+                        this.my.text.speach.destroy(); // Destroy the text object after the delay
+                    });
+                }
             }
         });
 
@@ -471,7 +532,7 @@ class mainScene extends Phaser.Scene {
         if(my.sprite.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
             this.sound.play("jump", {
-                volume: 0.4   // Can adjust volume using this, goes from 0 to 1
+                volume: 0.4   
             });
         }
 

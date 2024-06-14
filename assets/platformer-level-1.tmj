@@ -250,9 +250,9 @@
                  "name":"glazed",
                  "rotation":0,
                  "type":"",
-                 "visible":true,
+                 "visible":false,
                  "width":18,
-                 "x":720,
+                 "x":738,
                  "y":648
                 }, 
                 {
@@ -274,9 +274,9 @@
                  "name":"cream",
                  "rotation":0,
                  "type":"",
-                 "visible":true,
+                 "visible":false,
                  "width":18,
-                 "x":522,
+                 "x":540,
                  "y":558
                 }, 
                 {
@@ -496,7 +496,7 @@
                  "name":"E7",
                  "rotation":0,
                  "type":"",
-                 "visible":true,
+                 "visible":false,
                  "width":18,
                  "x":719.333333333333,
                  "y":633
@@ -628,7 +628,7 @@
                  "name":"E10",
                  "rotation":0,
                  "type":"",
-                 "visible":true,
+                 "visible":false,
                  "width":18,
                  "x":522.5,
                  "y":543.25
