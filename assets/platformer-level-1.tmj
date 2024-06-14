@@ -214,7 +214,7 @@
                  "name":"donut",
                  "rotation":0,
                  "type":"",
-                 "visible":true,
+                 "visible":false,
                  "width":18,
                  "x":882,
                  "y":630

@@ -15,6 +15,7 @@ class Load extends Phaser.Scene {
         this.load.audio("water", "221614__moodpie__splash_2.wav");
         this.load.audio("win", "668436__david819__win.mp3")
         this.load.audio("write", "335518__newagesoup__writing-short-8.wav")
+        this.load.audio("break", "563175__gronnie__wooden-box-breaking-sound-effects.wav")
 
         // Load tilemap information
        //this.load.image("tilemap_tiles", "tilemap_packed.png");
